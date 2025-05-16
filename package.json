@@ -18,10 +18,12 @@
   },
   "dependencies": {
     "@langchain/google-genai": "^0.2.9",
+    "@prisma/client": "^6.8.2",
     "dotenv": "^16.5.0",
     "fastify": "^5.3.3",
     "grammy": "^1.36.1",
-    "joi": "^17.13.3"
+    "joi": "^17.13.3",
+    "prisma": "^6.8.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.26.0",
