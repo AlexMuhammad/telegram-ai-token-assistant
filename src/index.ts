@@ -1,9 +1,12 @@
 import Fastify from "fastify";
 import { config } from "./config";
+import { TelegramBotClient } from "./bot/client";
 
 const fastify = Fastify({
   logger: true,
 });
+
+const telegramBot = new TelegramBotClient();
 
 fastify.get("/", async () => {
   return { status: "OK" };
@@ -12,7 +15,7 @@ fastify.get("/", async () => {
 const start = async () => {
   try {
     await fastify.listen({ port: config.port });
-    console.log(`Server listening on port ${config.port}`);
+    telegramBot.start();
   } catch (err) {
     fastify.log.error(err);
     process.exit(1);
