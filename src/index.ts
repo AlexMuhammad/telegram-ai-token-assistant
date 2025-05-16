@@ -1,19 +1,18 @@
 import Fastify from "fastify";
-import { bot } from "./bot";
+import { config } from "./config";
 
-const fastify = Fastify();
+const fastify = Fastify({
+  logger: true,
+});
 
 fastify.get("/", async () => {
-  return {
-    status: "Bot is running",
-  };
+  return { status: "OK" };
 });
 
 const start = async () => {
   try {
-    await fastify.listen({ port: 3000 });
-    console.log("Server is running on port 3000");
-    await bot.start();
+    await fastify.listen({ port: config.port });
+    console.log(`Server listening on port ${config.port}`);
   } catch (err) {
     fastify.log.error(err);
     process.exit(1);
