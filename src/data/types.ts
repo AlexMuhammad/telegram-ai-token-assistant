@@ -9,6 +9,14 @@ export interface DexScreenerToken {
   fdv: number;
 }
 
+export interface CoinGeckoToken {
+  name: string;
+  symbol: string;
+  price: number;
+  volume24h: number;
+  marketCap: number;
+}
+
 export interface Token {
   name: string;
   symbol: string;

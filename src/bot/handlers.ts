@@ -34,6 +34,37 @@ export class TelegramHandlers {
     }
   }
 
+  async handlePriceQuery(ctx: Context): Promise<void> {
+    const text = ctx.message?.text;
+    if (!text) return;
+
+    const symbol = text.split("$")[1]?.trim().toUpperCase();
+    if (!symbol) {
+      await ctx.reply(
+        'Please specify the token symbol (e.g., "What\'s the price of $PEPE?")'
+      );
+      return;
+    }
+
+    try {
+      const token = await this.tokenService.getTokenBySymbol(symbol);
+      if (!token) {
+        await ctx.reply("Token not found or invalid symbol, Please try again.");
+        return;
+      }
+
+      const response = `
+  📊 Token: ${token.name} (${token.symbol})
+     Price: ${formatters.currency(token.price)}
+     24h Volume: ${formatters.currency(token.volume24h)}
+     Market Cap: ${formatters.currency(token.marketCap!)}
+  `;
+      await ctx.reply(response);
+    } catch (error) {
+      await ctx.reply((error as Error).message || "An error occurred.");
+    }
+  }
+
   async handleStart(ctx: Context): Promise<void> {
     await ctx.reply("Welcome to the CryptoSleuthBot!");
   }

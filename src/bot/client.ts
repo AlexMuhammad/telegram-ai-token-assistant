@@ -15,10 +15,11 @@ export class TelegramBotClient {
       const text = ctx.message.text;
       if (
         text.startsWith("What’s the price of $") ||
-        text.startsWith("What is the price of $")
+        text.startsWith("What is the price of $") ||
+        text.startsWith("$")
       ) {
-        await ctx.reply("Price query is not implemented yet.");
-      } else if (/^0x[a-fA-F0-9]{40}$/.test(text)) {
+        await handlers.handlePriceQuery(ctx);
+      } else if (text.startsWith("0x") && text.length === 42) {
         await handlers.handleTokenAddress(ctx);
       } else {
         await ctx.reply(
