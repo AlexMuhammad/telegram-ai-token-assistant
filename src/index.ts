@@ -1,12 +1,14 @@
 import Fastify from "fastify";
 import { config } from "./config";
 import { TelegramBotClient } from "./bot/client";
+import { TelegramHandlers } from "./bot/handlers";
 
 const fastify = Fastify({
   logger: true,
 });
 
-const telegramBot = new TelegramBotClient();
+const telegramHandlers = new TelegramHandlers();
+const telegramBot = new TelegramBotClient(telegramHandlers);
 
 fastify.get("/", async () => {
   return { status: "OK" };
