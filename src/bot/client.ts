@@ -12,7 +12,19 @@ export class TelegramBotClient {
     this.bot.command("help", (ctx) => handlers.handleHelp(ctx));
 
     this.bot.on("message:text", async (ctx) => {
-      await ctx.reply("Hello!");
+      const text = ctx.message.text;
+      if (
+        text.startsWith("What’s the price of $") ||
+        text.startsWith("What is the price of $")
+      ) {
+        await ctx.reply("Price query is not implemented yet.");
+      } else if (/^0x[a-fA-F0-9]{40}$/.test(text)) {
+        await handlers.handleTokenAddress(ctx);
+      } else {
+        await ctx.reply(
+          "Invalid command. Send a token contract address (e.g., 0x123...) to get token details, AI insights, and security score."
+        );
+      }
     });
   }
 
